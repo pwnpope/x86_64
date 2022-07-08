@@ -1,0 +1,8 @@
+# pointers are registers that hold data
+# they point to data meaning they hold its memory address
+
+Pointer Name | Meaning              | Description
+--------------------------------------------------
+rip(eip,ip)  | index pointer        | points to next address to be excecuted in control flow
+esp(esp,sp)  | stack pointer        | points to top of stack
+rbp(ebp,bp)  | stack base pointer   | points to bottom of stack
