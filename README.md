@@ -1,16 +1,16 @@
 # x64 assembly write-up
 
 
-- ####  Registers
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Sections
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Flags
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Functions & Variables
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) System Calls (syscalls)
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Instructions
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Indexing
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Calling Conventions
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) GOT, PLT, GDT
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) OpCodes
+#### Registers
+#### Sections
+#### Flags
+#### Functions & Variables
+#### System Calls (syscalls)
+#### Instructions
+#### Indexing
+#### Calling Conventions
+#### GOT, PLT, GDT
+#### OpCodes
 
 
 
@@ -21,29 +21,29 @@
 
 ### Registers are special, high-speed storage area within the CPU. They are temporary memory like RAM. They are responsible for all arithmetic calculations. Some registers do not perform arithmetic operations and are used for other things like storing addresses, etc.
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) RAX	| Accumulator	
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) RBX	| Base	
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) RCX	| Counter	
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) RDX	| Data	
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) RSI	| Source	
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) RDI	| Destination	
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) RBP	| Base pointer	
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) RSP	| Stack pointer	
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) R8-R15	| New registers
+#### RAX	| Accumulator	
+#### RBX	| Base	
+#### RCX	| Counter	
+#### RDX	| Data	
+#### RSI	| Source	
+#### RDI	| Destination	
+#### RBP	| Base pointer	
+#### RSP	| Stack pointer	
+#### R8-R15	| New registers
 
 ----
 
 # Sections
 ### my definition: an assembly program is divided into 3 sections, .text, .data and .bss .text is where the code goes, .data is where most "variables" are initialized (this data will not change during run time), .bss is where the variables go that change during runtime 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) section .text
+#### section .text
 #### The text section is used for keeping the actual code. This section must begin with the declaration global _start, which tells the kernel where the program execution begins.
 
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) section .data
+#### section .data
 #### The data section is used for declaring initialized data or constants. This data does not change at runtime. You can declare various constant values, file names, or buffer size, etc., in this section.
 
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) section .bss
+#### section .bss
 #### The bss section is used for declaring variables.
 
 ---
@@ -52,92 +52,92 @@
 ###my definition: rFlags(flags) basically smaller registers that hold a boolean value typically these are used to return 
 
 ###Bit(s)	| Label	| Description
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 0	| CF	| Carry Flag
+#### 0	| CF	| Carry Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 1	| 1	| Reserved
+#### 1	| 1	| Reserved
     
 ----
 
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 2	| PF	| Parity Flag
+#### 2	| PF	| Parity Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 3	| 0	| Reserved
+#### 3	| 0	| Reserved
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 4	| AF	| Auxiliary Carry Flag
+#### 4	| AF	| Auxiliary Carry Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 5	| 0	| Reserved
+#### 5	| 0	| Reserved
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 6	| ZF	| Zero Flag
+#### 6	| ZF	| Zero Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 7	| SF	| Sign Flag
+#### 7	| SF	| Sign Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 8	| TF	| Trap Flag
+#### 8	| TF	| Trap Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 9	| IF	| Interrupt Enable Flag
+#### 9	| IF	| Interrupt Enable Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 10	| DF	| Direction Flag
+#### 10	| DF	| Direction Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 11	| OF	| Overflow Flag
+#### 11	| OF	| Overflow Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 12-13	| IOPL	| I/O Privilege Level
+#### 12-13	| IOPL	| I/O Privilege Level
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 14	| NT	| Nested Task
+#### 14	| NT	| Nested Task
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 15	| 0	| Reserved
+#### 15	| 0	| Reserved
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 16	| RF	| Resume Flag
+#### 16	| RF	| Resume Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 17	| VM	| Virtual-8086 Mode
+#### 17	| VM	| Virtual-8086 Mode
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 18	| AC	| Alignment Check / Access Control
+#### 18	| AC	| Alignment Check / Access Control
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 19	| VIF	| Virtual Interrupt Flag
+#### 19	| VIF	| Virtual Interrupt Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 20	| VIP	| Virtual Interrupt Pending
+#### 20	| VIP	| Virtual Interrupt Pending
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 21	| ID	| ID Flag
+#### 21	| ID	| ID Flag
   
 ----
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) 22-63	| 0	| Reserved
+#### 22-63	| 0	| Reserved
 
 ---
 
