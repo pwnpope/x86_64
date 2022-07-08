@@ -1,7 +1,7 @@
 # x64 assembly write-up
 
 
-- #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Registers
+- ####  Registers
 - #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Sections
 - #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Flags
 - #### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Functions & Variables
