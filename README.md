@@ -142,6 +142,7 @@
 ---
 
 # Functions & Variables
+# Functions & Variables
 - ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Functions
 ```nasm
 ; functions in assembly are called labels typically
@@ -170,13 +171,7 @@ section .data                               ; section .data holds initialized va
 + a fast system call is used to instruct the CPU to add a Procedure/Task Gate Descriptor in either the Global Descriptor Table (GDT) or a Local Descriptor Table (LDT) in order to transition to a lower privilege level (aka user mode to kernel mode).
 + Syscalls are always handled by the RAX(ax) register
 + All syscalls take arguments:
-        + RAX, arg0 (sys-call number loaded here)
-        + RBX, arg1
-        + RCX, arg2
-        + RDX, arg3
-        + RSI, arg4
-        + RDI, arg5
-        + RBP, arg6
+  (V ABI) rdi, rsi, rdx, rcx, r9, r10, stack
     + To see a list of system calls please visit: https://syscalls.w3challs.com/?arch=x86
     + Wiki on syscalls: https://en.wikipedia.org/wiki/System_call
 ```nasm
