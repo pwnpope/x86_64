@@ -1,7 +1,7 @@
 global _start                                     ; global directive is nasm specific
 
 section .data                                     ; "section .data" holds variables and 'data'
-	totem db "TOTEM ON YUH HEAD", 0x0a            ; #1 we are declaring a variable called "totem" than saying "db"
+	totem db "poop", 0x0a        		  ; #1 we are declaring a variable called "totem" than saying "db"
                                                   ; #2 to make sure it knows that this is a string, afterwards we
                                                   ; #3 print a newline character "0x0a"
 
