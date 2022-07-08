@@ -1,7 +1,7 @@
 global _start
 
 section .data
-    address db " otemThaFuckingEgod", 0x0a  ; setting the variable 'address' to yellow
+    address db " goatshitnigga", 0x0a  ; setting the variable 'address' to yellow
     length equ $ - address                  ; total length of the 'address' variable
 
 section .text
