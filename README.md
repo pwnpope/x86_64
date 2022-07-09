@@ -149,18 +149,18 @@
 global _start
 
 section .text
-    _start:        ; _start label (function)
-        call exit  ; calling the exit label (function)
+    _start:       
+        call exit 
         
     exit:
-        mov RAX, 1 ; moves 1 into EAX, sys_exit system call
-        mov RBX, 0 ; exit status 0
-        syscall   ; interrupt the program and invoke a sys-call
+        mov RAX, 1 
+        mov RBX, 0 
+        syscall   
 ```
 - ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Variables
 ```nasm
-section .data                               ; section .data holds initialized variables
-    variable db "this is a variable", 0x00  ; making the variable 'variable' and defining bytes "this is a variable"
+section .data                              
+    variable db "this is a variable", 0x00  
 ```
 
 ---
@@ -179,9 +179,9 @@ section .data                               ; section .data holds initialized va
 section .text
     global _start
     _start:
-        mov RAX, 60 ; mov sys_exit into RAX
-        mov RBX, 0  ; error code
-        syscall     ; invoke syscall
+        mov RAX, 60 
+        mov RBX, 0 
+        syscall    
 ```
 
 ---
@@ -252,32 +252,32 @@ section .data
 
 section .text
         _start:
-                call write    ; write hello world to stdout
-                call exit     ; exit the program
+                call write    
+                call exit     
         write:
-                mov RAX, 4      ; sys_write
-                mov RBX, 1      ; stdout
-                mov RCX, msg    ; buffer to write
-                mov RDX, length ; bytes to read
-                syscall         ; interrupt the program, invoke sys-call
-                ret             ; return to the original control flow
+                mov RAX, 4     
+                mov RBX, 1      
+                mov RCX, msg    
+                mov RDX, length 
+                syscall         
+                ret            
 
         exit:
-                mov RAX, 1 ; sys_exit
-                mov RBX, 0 ; exit status
-                syscall    ; interrupt the program, invoke sys-call
+                mov RAX, 1 
+                mov RBX, 0 
+                syscall    
                 
 -------------------------------------------------------------------
 
 - jmp  = preforms an uncoditional jump, transfers the flow of execution by changing the instruction pointer.
     example:
         _start:
-            jmp exit    ; JUMP to the address in memory where the exit label exist
+            jmp exit    
         
         exit:
-            mov RAX, 1  ; moves 1 into RAX, (sys_exit system call)
-            mov RBX, 0  ; exit status as 0
-            syscall     ; interrupt the program and invoke a sys-call ( exit the program ) 
+            mov RAX, 1 
+            mov RBX, 0  
+            syscall     
         
 
 ```
@@ -285,15 +285,15 @@ section .text
 ```nasm
 - leave = moves RBP into RSP and pops RBP off the stack
     Equivalent_to:
-        mov RSP, RBP  ; copies the data from RBP into RSP
-        pop RBP       ; pops RBP off the stack
+        mov RSP, RBP 
+        pop RBP       
         
 -------------------------------------------------------------------
 
 - enter = pushes RBP onto the stack then copies data within RSP to RBP
     Equivalent_to:
-        push RBP      ; push RBP onto the stack
-        mov RBP, RSP  ; copy data from whats within RSP to RBP
+        push RBP      
+        mov RBP, RSP  
         
 -------------------------------------------------------------------
 
@@ -302,25 +302,25 @@ section .text
 global _start
 
 section .data
-        msg db "hello world", 0x0a, 0x00  ; variable = msg, with string: "hello world" with a new line and null terminator
-        length equ $ - msg                ; get the length of the 'msg' variable and give the output to a variable called 'length'
+        msg db "hello world", 0x0a, 0x00 
+        length equ $ - msg                
 
 section .text
         _start:
-                call write    ; write hello world to stdout
-                call exit     ; exit the program
+                call write  
+                call exit     
         write:
-                mov RAX, 4      ; sys_write
-                mov RBX, 1      ; stdout
-                mov RCX, msg    ; buffer to write
-                mov RDX, length ; bytes to read
-                syscall         ; interrupt the program, invoke sys-call
-                ret             ; return to the original control flow
+                mov RAX, 4      
+                mov RBX, 1      
+                mov RCX, msg    
+                mov RDX, length 
+                syscall         
+                ret             
 
         exit:
-                mov RAX, 1 ; sys_exit
-                mov RBX, 0 ; exit status
-                syscall    ; interrupt the program, invoke sys-call    
+                mov RAX, 1 
+                mov RBX, 0
+                syscall   
 ```
 ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) push & pop ( stack operations )
 ```nasm
