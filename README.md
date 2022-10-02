@@ -1,26 +1,26 @@
 # x64 assembly write-up
 
+### this goes over the following:
+```markdown
+## Registers
+## Sections
+## Flags
+## Functions & Variables
+## System Calls (syscalls)
+## Instructions
+## Indexing
+## Calling Conventions
+## GOT, PLT, GDT
+## OpCodes
+```
 
-#### Registers
-#### Sections
-#### Flags
-#### Functions & Variables
-#### System Calls (syscalls)
-#### Instructions
-#### Indexing
-#### Calling Conventions
-#### GOT, PLT, GDT
-#### OpCodes
 
-
-
-### what're registers?
-
+## what're registers?
 ### my definition: temporary variables within the CPU
-
 
 ### Registers are special, high-speed storage area within the CPU. They are temporary memory like RAM. They are responsible for all arithmetic calculations. Some registers do not perform arithmetic operations and are used for other things like storing addresses, etc.
 
+```markdown
 #### RAX	| Accumulator	
 #### RBX	| Base	
 #### RCX	| Counter	
@@ -30,120 +30,64 @@
 #### RBP	| Base pointer	
 #### RSP	| Stack pointer	
 #### R8-R15	| New registers
-
+```
 ----
 
 # Sections
+
 ### my definition: an assembly program is divided into 3 sections, .text, .data and .bss .text is where the code goes, .data is where most "variables" are initialized (this data will not change during run time), .bss is where the variables go that change during runtime 
-#### section .text
-#### The text section is used for keeping the actual code. This section must begin with the declaration global _start, which tells the kernel where the program execution begins.
+
+## section .text
+
+- The text section is used for keeping the actual code. This section must begin with the declaration global _start, which tells the kernel where the program execution begins.
 
 
-#### section .data
-#### The data section is used for declaring initialized data or constants. This data does not change at runtime. You can declare various constant values, file names, or buffer size, etc., in this section.
+## section .data
+- The data section is used for declaring initialized data or constants. This data does not change at runtime. You can declare various constant values, file names, or buffer size, etc., in this section.
 
 
-#### section .bss
-#### The bss section is used for declaring variables.
+## section .bss
+- The bss section is used for declaring variables.
 
 ---
 
 # rFlags
-###my definition: rFlags(flags) basically smaller registers that hold a boolean value typically these are used to return 
-
-###Bit(s)	| Label	| Description
-#### 0	| CF	| Carry Flag
-  
-----
-
-#### 1	| 1	| Reserved
-    
-----
+- my definition: rFlags(flags) basically smaller registers that hold a boolean value typically these are used to return 
 
 
-#### 2	| PF	| Parity Flag
-  
-----
+### Bit(s)	| Label	| Description
 
-#### 3	| 0	| Reserved
-  
-----
-
-#### 4	| AF	| Auxiliary Carry Flag
-  
-----
-
-#### 5	| 0	| Reserved
-  
-----
-
-#### 6	| ZF	| Zero Flag
-  
-----
-
-#### 7	| SF	| Sign Flag
-  
-----
-
-#### 8	| TF	| Trap Flag
-  
-----
-
-#### 9	| IF	| Interrupt Enable Flag
-  
-----
-
-#### 10	| DF	| Direction Flag
-  
-----
-
-#### 11	| OF	| Overflow Flag
-  
-----
-
-#### 12-13	| IOPL	| I/O Privilege Level
-  
-----
-
-#### 14	| NT	| Nested Task
-  
-----
-
-#### 15	| 0	| Reserved
-  
-----
-
-#### 16	| RF	| Resume Flag
-  
-----
-
-#### 17	| VM	| Virtual-8086 Mode
-  
-----
-
-#### 18	| AC	| Alignment Check / Access Control
-  
-----
-
-#### 19	| VIF	| Virtual Interrupt Flag
-  
-----
-
-#### 20	| VIP	| Virtual Interrupt Pending
-  
-----
-
-#### 21	| ID	| ID Flag
-  
-----
-
-#### 22-63	| 0	| Reserved
+```markdown
+# 0	| CF	| Carry Flag
+# 1	| 1	| Reserved
+# 2	| PF	| Parity Flag
+# 3	| 0	| Reserved
+# 4	| AF	| Auxiliary Carry Flag
+# 5	| 0	| Reserved
+# 6	| ZF	| Zero Flag
+# 7	| SF	| Sign Flag
+# 8	| TF	| Trap Flag
+# 9	| IF	| Interrupt Enable Flag
+# 10	| DF	| Direction Flag
+# 11	| OF	| Overflow Flag
+# 12-13	| IOPL	| I/O Privilege Level
+# 14	| NT	| Nested Task
+# 15	| 0	| Reserved
+# 16	| RF	| Resume Flag
+# 17	| VM	| Virtual-8086 Mode
+# 18	| AC	| Alignment Check / Access Control
+# 19	| VIF	| Virtual Interrupt Flag
+# 20	| VIP	| Virtual Interrupt Pending
+# 21	| ID	| ID Flag
+# 22-63	| 0	| Reserved
+```
 
 ---
 
 # Functions & Variables
-# Functions & Variables
+
 - ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Functions
+
 ```nasm
 ; functions in assembly are called labels typically
 global _start
@@ -157,23 +101,31 @@ section .text
         mov RBX, 0 
         syscall   
 ```
+
 - ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Variables
+
 ```nasm
 section .data                              
-    variable db "this is a variable", 0x00  
+    variable db "this is a variable", 0x00 ; The "DB" statement initializes memory with one or more byte values.
 ```
 
 ---
 
 # System Calls (syscalls)
+
 ## What is a system call?
+
 + A system call is a service requested by the kernel (requested by the program)
+
 + a fast system call is used to instruct the CPU to add a Procedure/Task Gate Descriptor in either the Global Descriptor Table (GDT) or a Local Descriptor Table (LDT) in order to transition to a lower privilege level (aka user mode to kernel mode).
+
 + Syscalls are always handled by the RAX(ax) register
+
 + All syscalls take arguments:
   (V ABI) rdi, rsi, rdx, rcx, r9, r10, stack
     + To see a list of system calls please visit: https://syscalls.w3challs.com/?arch=x86
     + Wiki on syscalls: https://en.wikipedia.org/wiki/System_call
+
 ```nasm
 ; example
 section .text
@@ -185,7 +137,8 @@ section .text
 ```
 
 ---
-# Instructions
+
+# Instructions & Other statements you should know
 
 ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) mov & lea
 ```nasm
