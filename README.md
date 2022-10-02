@@ -174,7 +174,7 @@ section .text
     example: variable dq "define ten-bytes!" ; making a variable and 'defining ten bytes' with the data "define ten-bytes!"
 
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) equ
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) equ
 ```nasm
 - equ = assigns absolute or relocatable values to symbols
     example:
@@ -182,7 +182,7 @@ section .text
         variable_name db "hello world", 0x0a, 0x00 ; setting a variable with the bytes 'hello world' with a new line and terminator after
         length equ $ - variable_name
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) cmp
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) cmp
 ```nasm
 - cmp = compares 2 values and sets background flags to either 1 or 0 depending on the outcome
     example: 
@@ -192,7 +192,7 @@ global _start
         mov RAX, 1  ; moving the value +1 into RAX
         cmp RAX, 0  ; comparing RAX to 0, since we know that RAX has +1 in it than we know that the result of the comparison is 0 (false)
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) call & jmp
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) call & jmp
 ```nasm
 - call = call & jmp are essentially the same however when call & ret are used together the program
 returns to the origanal control flow
@@ -234,7 +234,7 @@ section .text
         
 
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) leave, enter & ret
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) leave, enter & ret
 ```nasm
 - leave = moves RBP into RSP and pops RBP off the stack
     Equivalent_to:
@@ -275,7 +275,7 @@ section .text
                 mov RBX, 0
                 syscall   
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) push & pop ( stack operations )
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) push & pop ( stack operations )
 ```nasm
 - push = increments ESP by 4(bytes) then places its contents onto the top of the stack where ESP will now point to
     example:
@@ -287,7 +287,7 @@ section .text
         pop RDI     ; pop the top of the stack into EDI
         pop [RBX]   ; pop the top of the stack into memory at the 4 bytes starting at RBX
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+)  nop & int
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+)  nop & int
 ```nasm
 - nop = no operation, when the instruction pointer (EIP) points to this instruction it simply does nothing until the next instruction is hit.
     example:
@@ -305,7 +305,7 @@ section .text
         syscall   ; interrupt and invoke a sys-call
 
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) xor, or, not, test & and (logical instructions)
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) xor, or, not, test & and (logical instructions)
 - xor = exclusive or, bitwise comparison operator
     - XOR is reversable meaning 0x8C ^ 0x2C = 0xA0 and 0x8C ^ 0xA0 = 0x2C
     - xor is a cheap way to encrypt data with a password
@@ -388,7 +388,7 @@ _start:
 ```    
 
 ## Arithmetic Operations
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) add & sub
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) add & sub
 ```nasm
 - add = this is going to preform an addition equation
     example: 
@@ -398,7 +398,7 @@ _start:
     example:
         sub RAX, 5  ; subtracting -5 from RAX 
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) dec & inc
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) dec & inc
 ```nasm
 - dec = adds +1 to the destination while preserving the state of the carry flag (CF)
     example:
@@ -408,7 +408,7 @@ _start:
     example:
         inc RAX    ; increment RAX by +1
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) adc & sbb
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) adc & sbb
 ```nasm
 - adc = this instruction is just like the add instruction, however it also adds the value of the CF flag
     example:
@@ -417,7 +417,7 @@ _start:
     example:
         sbb RAX, 5  ; subtract 5 plus whatever is in CF from RAX
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) mul, div, imul, idiv & neg
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) mul, div, imul, idiv & neg
 ```nasm
 - Signed binary integers Signed integers are numbers with a + or - sign
 - Signed integers must be sign-extended before division takes place
@@ -499,7 +499,7 @@ _start:
 ```
 
 ## Conditional Jumps
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jl, jg, jz & je
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jl, jg, jz & je
 ```nasm
 - jl = jump if less than
     example:
@@ -538,7 +538,7 @@ _start:
 -------------------------------------------------------------------
 
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jne, jge, jle, jnz 
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jne, jge, jle, jnz 
 ```nasm
 - jne = jump if not equal to
     example:
@@ -574,14 +574,14 @@ _start:
             cmp RAX, 0   ; compare RAX to 0
             jnz _start   ; jump to _start since RAX is not 0
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jo & jno
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jo & jno
 ```nasm
 - flags affected: OF ( overflow flag )
 -------------------------------------------------------------------
 - jo = jump if an overflow occurs
 - jno = jump if no overflow occurs
 ```
-### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) js & jns
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) js & jns
 ```nasm
 - js = this conditional jump will occur if the jump is signed
 - jns = this conditional jump will occur  if the jump is not signed
