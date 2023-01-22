@@ -1,93 +1,97 @@
 # x64 assembly write-up
 
-### this goes over the following:
-```markdown
-## Registers
-## Sections
-## Flags
-## Functions & Variables
-## System Calls (syscalls)
-## Instructions
-## Indexing
-## Calling Conventions
-## GOT, PLT, GDT
-## OpCodes
+
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Registers
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Sections
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Flags
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Functions & Variables
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) System Calls (syscalls)
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Instructions
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Indexing
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Calling Conventions
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) GOT, PLT, GDT
+#### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) OpCodes
+
+---
+
+# Registers
+
+- my definition: temporary variables within the CPU
+
+
+```
+Registers are special, high-speed storage area within the CPU. They are temporary memory like RAM. They are responsible for all arithmetic calculations. Some registers do not perform arithmetic operations and are used for other things like storing addresses, etc.
 ```
 
+- RAX	 | Accumulator	
+- RBX	 | Base	
+- RCX	 | Counter	
+- RDX	 | Data	
+- RSI	 | Source	
+- RDI	 | Destination	
+- RBP	 | Base pointer	
+- RSP	 | Stack pointer	
+- R8-R15 | New registers
 
-## what're registers?
-### my definition: temporary variables within the CPU
-
-### Registers are special, high-speed storage area within the CPU. They are temporary memory like RAM. They are responsible for all arithmetic calculations. Some registers do not perform arithmetic operations and are used for other things like storing addresses, etc.
-
-```markdown
-#### RAX	| Accumulator	
-#### RBX	| Base	
-#### RCX	| Counter	
-#### RDX	| Data	
-#### RSI	| Source	
-#### RDI	| Destination	
-#### RBP	| Base pointer	
-#### RSP	| Stack pointer	
-#### R8-R15	| New registers
-```
 ----
 
 # Sections
 
-### my definition: an assembly program is divided into 3 sections, .text, .data and .bss .text is where the code goes, .data is where most "variables" are initialized (this data will not change during run time), .bss is where the variables go that change during runtime 
+```
+my definition: an assembly program is divided into 3 sections, .text, .data and .bss .text is where the code goes, .data is where most "variables" are initialized (this data will not change during run time), .bss is where the variables go that change during runtime 
+```
 
 ## section .text
 
-- The text section is used for keeping the actual code. This section must begin with the declaration global _start, which tells the kernel where the program execution begins.
-
+```
+The text section is used for keeping the actual code. This section must begin with the declaration global _start, which tells the kernel where the program execution begins.
+```
 
 ## section .data
-- The data section is used for declaring initialized data or constants. This data does not change at runtime. You can declare various constant values, file names, or buffer size, etc., in this section.
 
+```
+The data section is used for declaring initialized data or constants. This data does not change at runtime. You can declare various constant values, file names, or buffer size, etc., in this section.
+```
 
 ## section .bss
-- The bss section is used for declaring variables.
-
+```
+ The bss section is used for declaring variables.
+```
 ---
 
 # rFlags
-- my definition: rFlags(flags) basically smaller registers that hold a boolean value typically these are used to return 
 
-
-### Bit(s)	| Label	| Description
-
-```markdown
-# 0	| CF	| Carry Flag
-# 1	| 1	| Reserved
-# 2	| PF	| Parity Flag
-# 3	| 0	| Reserved
-# 4	| AF	| Auxiliary Carry Flag
-# 5	| 0	| Reserved
-# 6	| ZF	| Zero Flag
-# 7	| SF	| Sign Flag
-# 8	| TF	| Trap Flag
-# 9	| IF	| Interrupt Enable Flag
-# 10	| DF	| Direction Flag
-# 11	| OF	| Overflow Flag
-# 12-13	| IOPL	| I/O Privilege Level
-# 14	| NT	| Nested Task
-# 15	| 0	| Reserved
-# 16	| RF	| Resume Flag
-# 17	| VM	| Virtual-8086 Mode
-# 18	| AC	| Alignment Check / Access Control
-# 19	| VIF	| Virtual Interrupt Flag
-# 20	| VIP	| Virtual Interrupt Pending
-# 21	| ID	| ID Flag
-# 22-63	| 0	| Reserved
+```
+my definition: rFlags(flags) basically smaller registers that hold a boolean value typically these are used to return 
 ```
 
+## Bit(s)	| Label	| Description
+- 0	| CF	| Carry Flag
+- 1	| 1	| Reserved
+- 2	| PF	| Parity Flag
+- 3	| 0	| Reserved
+- 4	| AF	| Auxiliary Carry Flag
+- 5	| 0	| Reserved
+- 6	| ZF	| Zero Flag
+- 7	| SF	| Sign Flag
+- 8	| TF	| Trap Flag
+- 9	| IF	| Interrupt Enable Flag
+- 10	| DF	| Direction Flag
+- 11	| OF	| Overflow Flag
+- 12-13	| IOPL	| I/O Privilege Level
+- 14	| NT	| Nested Task
+- 15	| 0	| Reserved
+- 16	| RF	| Resume Flag
+- 17	| VM	| Virtual-8086 Mode
+- 18	| AC	| Alignment Check / Access Control
+- 19	| VIF	| Virtual Interrupt Flag
+- 20	| VIP	| Virtual Interrupt Pending
+- 21	| ID	| ID Flag
+- 22-63	| 0	| Reserved
 ---
 
 # Functions & Variables
-
 - ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Functions
-
 ```nasm
 ; functions in assembly are called labels typically
 global _start
@@ -101,31 +105,23 @@ section .text
         mov RBX, 0 
         syscall   
 ```
-
 - ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) Variables
-
 ```nasm
 section .data                              
-    variable db "this is a variable", 0x00 ; The "DB" statement initializes memory with one or more byte values.
+    variable db "this is a variable", 0x00  
 ```
 
 ---
 
 # System Calls (syscalls)
-
 ## What is a system call?
-
 + A system call is a service requested by the kernel (requested by the program)
-
 + a fast system call is used to instruct the CPU to add a Procedure/Task Gate Descriptor in either the Global Descriptor Table (GDT) or a Local Descriptor Table (LDT) in order to transition to a lower privilege level (aka user mode to kernel mode).
-
 + Syscalls are always handled by the RAX(ax) register
-
 + All syscalls take arguments:
   (V ABI) rdi, rsi, rdx, rcx, r9, r10, stack
     + To see a list of system calls please visit: https://syscalls.w3challs.com/?arch=x86
     + Wiki on syscalls: https://en.wikipedia.org/wiki/System_call
-
 ```nasm
 ; example
 section .text
@@ -137,8 +133,7 @@ section .text
 ```
 
 ---
-
-# Instructions & Other statements you should know
+# Instructions
 
 ### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) mov & lea
 ```nasm
@@ -174,7 +169,7 @@ section .text
     example: variable dq "define ten-bytes!" ; making a variable and 'defining ten bytes' with the data "define ten-bytes!"
 
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) equ
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) equ
 ```nasm
 - equ = assigns absolute or relocatable values to symbols
     example:
@@ -182,7 +177,7 @@ section .text
         variable_name db "hello world", 0x0a, 0x00 ; setting a variable with the bytes 'hello world' with a new line and terminator after
         length equ $ - variable_name
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) cmp
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) cmp
 ```nasm
 - cmp = compares 2 values and sets background flags to either 1 or 0 depending on the outcome
     example: 
@@ -192,7 +187,7 @@ global _start
         mov RAX, 1  ; moving the value +1 into RAX
         cmp RAX, 0  ; comparing RAX to 0, since we know that RAX has +1 in it than we know that the result of the comparison is 0 (false)
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) call & jmp
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) call & jmp
 ```nasm
 - call = call & jmp are essentially the same however when call & ret are used together the program
 returns to the origanal control flow
@@ -234,7 +229,7 @@ section .text
         
 
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) leave, enter & ret
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) leave, enter & ret
 ```nasm
 - leave = moves RBP into RSP and pops RBP off the stack
     Equivalent_to:
@@ -275,7 +270,7 @@ section .text
                 mov RBX, 0
                 syscall   
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) push & pop ( stack operations )
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) push & pop ( stack operations )
 ```nasm
 - push = increments ESP by 4(bytes) then places its contents onto the top of the stack where ESP will now point to
     example:
@@ -287,7 +282,7 @@ section .text
         pop RDI     ; pop the top of the stack into EDI
         pop [RBX]   ; pop the top of the stack into memory at the 4 bytes starting at RBX
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+)  nop & int
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+)  nop & int
 ```nasm
 - nop = no operation, when the instruction pointer (EIP) points to this instruction it simply does nothing until the next instruction is hit.
     example:
@@ -305,7 +300,7 @@ section .text
         syscall   ; interrupt and invoke a sys-call
 
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) xor, or, not, test & and (logical instructions)
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) xor, or, not, test & and (logical instructions)
 - xor = exclusive or, bitwise comparison operator
     - XOR is reversable meaning 0x8C ^ 0x2C = 0xA0 and 0x8C ^ 0xA0 = 0x2C
     - xor is a cheap way to encrypt data with a password
@@ -388,7 +383,7 @@ _start:
 ```    
 
 ## Arithmetic Operations
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) add & sub
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) add & sub
 ```nasm
 - add = this is going to preform an addition equation
     example: 
@@ -398,7 +393,7 @@ _start:
     example:
         sub RAX, 5  ; subtracting -5 from RAX 
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) dec & inc
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) dec & inc
 ```nasm
 - dec = adds +1 to the destination while preserving the state of the carry flag (CF)
     example:
@@ -408,7 +403,7 @@ _start:
     example:
         inc RAX    ; increment RAX by +1
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) adc & sbb
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) adc & sbb
 ```nasm
 - adc = this instruction is just like the add instruction, however it also adds the value of the CF flag
     example:
@@ -417,7 +412,7 @@ _start:
     example:
         sbb RAX, 5  ; subtract 5 plus whatever is in CF from RAX
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) mul, div, imul, idiv & neg
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) mul, div, imul, idiv & neg
 ```nasm
 - Signed binary integers Signed integers are numbers with a + or - sign
 - Signed integers must be sign-extended before division takes place
@@ -499,7 +494,7 @@ _start:
 ```
 
 ## Conditional Jumps
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jl, jg, jz & je
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jl, jg, jz & je
 ```nasm
 - jl = jump if less than
     example:
@@ -538,7 +533,7 @@ _start:
 -------------------------------------------------------------------
 
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jne, jge, jle, jnz 
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jne, jge, jle, jnz 
 ```nasm
 - jne = jump if not equal to
     example:
@@ -574,14 +569,14 @@ _start:
             cmp RAX, 0   ; compare RAX to 0
             jnz _start   ; jump to _start since RAX is not 0
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jo & jno
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) jo & jno
 ```nasm
 - flags affected: OF ( overflow flag )
 -------------------------------------------------------------------
 - jo = jump if an overflow occurs
 - jno = jump if no overflow occurs
 ```
-![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) js & jns
+### ![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+) js & jns
 ```nasm
 - js = this conditional jump will occur if the jump is signed
 - jns = this conditional jump will occur  if the jump is not signed
@@ -636,5 +631,3 @@ section .text
         mov RBX, 0 ; exit status
         syscall   ; interrupt and invoke sys-call
 ```
-
----
