@@ -425,7 +425,7 @@ _start:
     example:
         mov RAX, -2      ; placing -2 in RAX
         mov RBX, -100    ; placing -100 in RBX
-        imul RBX         ; RBX * RAX = 50 (RAX=50)
+        imul RBX         ; RBX * RAX = 200 (RAX=200)
 
 -------------------------------------------------------------------
 
@@ -441,7 +441,7 @@ _start:
     example:
         mov RAX, 2      ; placing +2 in RAX
         mov RBX, 100    ; placing +100 in RBX
-        mul RBX         ; RBX * RAX = 50 (RAX=50)
+        mul RBX         ; RBX * RAX = 200 (RAX=200)
 
 -------------------------------------------------------------------
 
