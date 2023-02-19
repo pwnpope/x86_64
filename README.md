@@ -1,4 +1,4 @@
-# x64 assembly write-up
+# x86_64 assembly write-up
 
 
 #### Registers
